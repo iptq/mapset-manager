@@ -10,6 +10,11 @@ Issues
 
 Please direct all issues to the [issue tracker on the public mirror hosted at Github](https://github.com/iptq/mapset-manager/issues).
 
+Credits
+=======
+
+Thanks to @francesco149 for the [Java oppai port](https://github.com/Francesco149/koohii)!
+
 Contact
 =======
 
