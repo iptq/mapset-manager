@@ -1,9 +1,12 @@
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.TreeSet;
+import javax.swing.JPanel;
 
 public class BeatmapSet {
+    private JPanel panel;
     private File location;
-    private ArrayList<Beatmap> beatmaps = new ArrayList<Beatmap>();
+    public TreeSet<Beatmap> beatmaps = new TreeSet<Beatmap>();
 
     public static BeatmapSet fromLocation(File location) {
         BeatmapSet set = new BeatmapSet();
@@ -13,12 +16,24 @@ public class BeatmapSet {
         // get all maps from set
         for (File child : set.location.listFiles()) {
             if (child.getName().endsWith(".osu")) {
-                Beatmap map = Beatmap.fromLocation(child);
+                Beatmap map = null;
+                try {
+                    map = Beatmap.fromLocation(child);
+                } catch (IOException e) {
+                    System.err.println("Something was wrong when fetching '" + child.getName() + "'.");
+                }
                 if (map != null)
                     set.beatmaps.add(map);
             }
         }
 
         return set;
+    }
+
+    public JPanel getPanel() {
+        if (panel == null) {
+            panel = new JPanel();
+        }
+        return panel;
     }
 }

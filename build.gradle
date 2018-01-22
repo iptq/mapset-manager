@@ -3,12 +3,15 @@ apply plugin: 'application'
 
 version = '0.1'
 
-jar {
+task fatJar(type: Jar) {
     manifest {
         attributes (
             'Main-Class': 'MapsetManager'
         )
     }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 repositories {

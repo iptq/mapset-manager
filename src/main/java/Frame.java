@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,17 +7,33 @@ import java.io.File;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.JMenu;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Frame extends JFrame {
     private static final long serialVersionUID = 1L;
     private State state;
+    private JTabbedPane tabs;
 
     private void chooseMapset(BeatmapSet set) {
         state.mapset = set;
+
+        // empty tab pane
+        tabs.removeAll();
+
+        // first pane
+        tabs.addTab("General", state.mapset.getPanel());
+
+        // populate tab list
+        for (Beatmap map : state.mapset.beatmaps) {
+            System.out.println(map.stars);
+            tabs.addTab(map.difficultyName, map.getPanel());
+        }
     }
 
     private void initMenuBar() {
@@ -71,8 +88,15 @@ public class Frame extends JFrame {
         setJMenuBar(bar);
     }
 
-    private void initPanels() {
+    private void initBody() {
+        tabs = new JTabbedPane();
+        tabs.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
 
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.add(new JLabel("File > Open to select a beatmap."));
+        tabs.addTab("<empty>", panel);
+
+        add(tabs);
     }
 
     public Frame() {
@@ -80,11 +104,11 @@ public class Frame extends JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         setTitle("Mapset Manager");
-        setSize(new Dimension(1024, 768));
+        setSize(new Dimension(854, 480));
         setLocation(((int) screenSize.getWidth() - getWidth()) / 2, ((int) screenSize.getHeight() - getHeight()) / 2);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         initMenuBar();
-        initPanels();
+        initBody();
     }
 }
