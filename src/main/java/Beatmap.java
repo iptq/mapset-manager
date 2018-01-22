@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import com.github.francesco149.koohii.*;
 
 public class Beatmap implements Comparable<Beatmap> {
@@ -21,7 +22,8 @@ public class Beatmap implements Comparable<Beatmap> {
     public static Koohii.DiffCalc kcalc = new Koohii.DiffCalc();
 
     private BeatmapPanel panel = null;
-    private boolean modified = false;
+    public boolean modified = false;
+    public int index;
 
     public HashMap<String, ArrayList<String>> sections = new HashMap<String, ArrayList<String>>();
 
@@ -33,6 +35,9 @@ public class Beatmap implements Comparable<Beatmap> {
     public MetadataEntry metaCreator = new MetadataEntry("Creator");
     public MetadataEntry metaSource = new MetadataEntry("Source");
     public MetadataEntry metaTags = new MetadataEntry("Tags");
+
+    public MetadataEntry[] allMeta = { metaTitle, metaTitleUnicode, metaArtist, metaArtistUnicode, metaCreator,
+            metaSource, metaTags };
 
     public String difficultyName;
     public double stars;

@@ -3,6 +3,8 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,8 +30,33 @@ public class Frame extends JFrame {
         tabs.removeAll();
 
         // populate tab list
+        int index = 0;
         for (Beatmap map : state.mapset.beatmaps) {
             tabs.addTab(map.difficultyName, map.getPanel());
+            final int currIndex = index++;
+
+            KeyListener modifiedListener = new KeyListener() {
+                @Override
+                public void keyTyped(KeyEvent e) {
+                }
+
+                @Override
+                public void keyReleased(KeyEvent e) {
+                }
+
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    map.modified = true;
+                    tabs.setTitleAt(currIndex, map.difficultyName + "*");
+                }
+            };
+            map.metaTitle.getInputBox().addKeyListener(modifiedListener);
+            map.metaTitleUnicode.getInputBox().addKeyListener(modifiedListener);
+            map.metaArtist.getInputBox().addKeyListener(modifiedListener);
+            map.metaArtistUnicode.getInputBox().addKeyListener(modifiedListener);
+            map.metaCreator.getInputBox().addKeyListener(modifiedListener);
+            map.metaSource.getInputBox().addKeyListener(modifiedListener);
+            map.metaTags.getInputBox().addKeyListener(modifiedListener);
         }
     }
 
