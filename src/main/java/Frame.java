@@ -21,6 +21,7 @@ public class Frame extends JFrame {
     private JTabbedPane tabs;
 
     private void chooseMapset(BeatmapSet set) {
+        setTitle("Mapset Manager: " + set.location.getName());
         state.mapset = set;
 
         // empty tab pane

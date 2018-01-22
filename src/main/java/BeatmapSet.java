@@ -4,7 +4,7 @@ import java.util.TreeSet;
 import javax.swing.JPanel;
 
 public class BeatmapSet {
-    private File location;
+    public File location;
     public TreeSet<Beatmap> beatmaps = new TreeSet<Beatmap>();
 
     public static BeatmapSet fromLocation(File location) {

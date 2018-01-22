@@ -4,10 +4,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import com.github.francesco149.koohii.*;
@@ -19,11 +23,16 @@ public class Beatmap implements Comparable<Beatmap> {
     private BeatmapPanel panel = null;
     private boolean modified = false;
 
+    public HashMap<String, ArrayList<String>> sections = new HashMap<String, ArrayList<String>>();
+
     // metadata
     public MetadataEntry metaTitle = new MetadataEntry("Title");
     public MetadataEntry metaTitleUnicode = new MetadataEntry("Title Unicode");
     public MetadataEntry metaArtist = new MetadataEntry("Artist");
     public MetadataEntry metaArtistUnicode = new MetadataEntry("Artist Unicode");
+    public MetadataEntry metaCreator = new MetadataEntry("Creator");
+    public MetadataEntry metaSource = new MetadataEntry("Source");
+    public MetadataEntry metaTags = new MetadataEntry("Tags");
 
     public String difficultyName;
     public double stars;
@@ -47,22 +56,27 @@ public class Beatmap implements Comparable<Beatmap> {
         }
         map.stars = stars.total;
 
-        map.difficultyName = kmap.version;
-
         return map;
+    }
+
+    public void save() throws IOException {
+        BeatmapSerializer.write(new OutputStreamWriter(System.out), this);
     }
 
     public JPanel getPanel() {
         if (panel == null) {
             GridBagLayout layout = new GridBagLayout();
             layout.columnWidths = new int[] { 82, 184, 0 };
-            layout.rowHeights = new int[] { 30, 30, 30, 30, 0 };
+            layout.rowHeights = new int[] { 30, 30, 30, 30, 30, 30, 30, 0 };
             panel = new BeatmapPanel(layout);
 
             panel.addRow(new JLabel(metaTitle.name), metaTitle.getInputBox());
             panel.addRow(new JLabel(metaTitleUnicode.name), metaTitleUnicode.getInputBox());
             panel.addRow(new JLabel(metaArtist.name), metaArtist.getInputBox());
             panel.addRow(new JLabel(metaArtistUnicode.name), metaArtistUnicode.getInputBox());
+            panel.addRow(new JLabel(metaCreator.name), metaCreator.getInputBox());
+            panel.addRow(new JLabel(metaSource.name), metaSource.getInputBox());
+            panel.addRow(new JLabel(metaTags.name), metaTags.getInputBox());
         }
         return panel;
     }
