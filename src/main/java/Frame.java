@@ -26,12 +26,8 @@ public class Frame extends JFrame {
         // empty tab pane
         tabs.removeAll();
 
-        // first pane
-        tabs.addTab("General", state.mapset.getPanel());
-
         // populate tab list
         for (Beatmap map : state.mapset.beatmaps) {
-            System.out.println(map.stars);
             tabs.addTab(map.difficultyName, map.getPanel());
         }
     }

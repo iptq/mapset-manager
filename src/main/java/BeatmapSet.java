@@ -4,7 +4,6 @@ import java.util.TreeSet;
 import javax.swing.JPanel;
 
 public class BeatmapSet {
-    private JPanel panel;
     private File location;
     public TreeSet<Beatmap> beatmaps = new TreeSet<Beatmap>();
 
@@ -21,6 +20,7 @@ public class BeatmapSet {
                     map = Beatmap.fromLocation(child);
                 } catch (IOException e) {
                     System.err.println("Something was wrong when fetching '" + child.getName() + "'.");
+                    e.printStackTrace();
                 }
                 if (map != null)
                     set.beatmaps.add(map);
@@ -28,12 +28,5 @@ public class BeatmapSet {
         }
 
         return set;
-    }
-
-    public JPanel getPanel() {
-        if (panel == null) {
-            panel = new JPanel();
-        }
-        return panel;
     }
 }
