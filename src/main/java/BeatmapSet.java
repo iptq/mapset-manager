@@ -4,6 +4,7 @@ import java.util.TreeSet;
 import javax.swing.JPanel;
 
 public class BeatmapSet {
+    public Frame frame;
     public File location;
     public TreeSet<Beatmap> beatmaps = new TreeSet<Beatmap>();
 
@@ -22,11 +23,27 @@ public class BeatmapSet {
                     System.err.println("Something was wrong when fetching '" + child.getName() + "'.");
                     e.printStackTrace();
                 }
-                if (map != null)
+                if (map != null) {
+                    map.set = set;
                     set.beatmaps.add(map);
+                }
             }
         }
 
         return set;
+    }
+
+    public void updateModifyTracker() {
+        for (Beatmap map : beatmaps) {
+            frame.tabs.setTitleAt(map.index, map.difficultyName + (map.modified ? "*" : ""));
+        }
+    }
+
+    public void commitMapset(Metadata metadata) throws IOException {
+        for (Beatmap map : beatmaps) {
+            map.metadata.assimilate(metadata);
+            map.save();
+        }
+        updateModifyTracker();
     }
 }

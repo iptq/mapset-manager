@@ -27,28 +27,34 @@ public class BeatmapDeserializer {
                     value = "";
                 switch (key) {
                 case "Title":
-                    map.metaTitle.setValue(value);
+                    map.metadata.Title.setValue(value);
                     break;
                 case "TitleUnicode":
-                    map.metaTitleUnicode.setValue(value);
+                    map.metadata.TitleUnicode.setValue(value);
                     break;
                 case "Artist":
-                    map.metaArtist.setValue(value);
+                    map.metadata.Artist.setValue(value);
                     break;
                 case "ArtistUnicode":
-                    map.metaArtistUnicode.setValue(value);
+                    map.metadata.ArtistUnicode.setValue(value);
                     break;
                 case "Creator":
-                    map.metaCreator.setValue(value);
+                    map.metadata.Creator.setValue(value);
                     break;
                 case "Version":
                     map.difficultyName = value;
                     break;
                 case "Source":
-                    map.metaSource.setValue(value);
+                    map.metadata.Source.setValue(value);
                     break;
                 case "Tags":
-                    map.metaTags.setValue(value);
+                    map.metadata.Tags.setValue(value);
+                    break;
+                case "BeatmapID":
+                    map.BeatmapID = Integer.parseInt(value);
+                    break;
+                case "BeatmapSetID":
+                    map.BeatmapSetID = Integer.parseInt(value);
                     break;
                 default:
                     // u don fukt

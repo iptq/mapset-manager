@@ -3,8 +3,6 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -20,10 +18,11 @@ import javax.swing.JLabel;
 public class Frame extends JFrame {
     private static final long serialVersionUID = 1L;
     private State state;
-    private JTabbedPane tabs;
+    public JTabbedPane tabs;
 
     private void chooseMapset(BeatmapSet set) {
         setTitle("Mapset Manager: " + set.location.getName());
+        set.frame = this;
         state.mapset = set;
 
         // empty tab pane
@@ -34,29 +33,7 @@ public class Frame extends JFrame {
         for (Beatmap map : state.mapset.beatmaps) {
             tabs.addTab(map.difficultyName, map.getPanel());
             final int currIndex = index++;
-
-            KeyListener modifiedListener = new KeyListener() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                }
-
-                @Override
-                public void keyReleased(KeyEvent e) {
-                }
-
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    map.modified = true;
-                    tabs.setTitleAt(currIndex, map.difficultyName + "*");
-                }
-            };
-            map.metaTitle.getInputBox().addKeyListener(modifiedListener);
-            map.metaTitleUnicode.getInputBox().addKeyListener(modifiedListener);
-            map.metaArtist.getInputBox().addKeyListener(modifiedListener);
-            map.metaArtistUnicode.getInputBox().addKeyListener(modifiedListener);
-            map.metaCreator.getInputBox().addKeyListener(modifiedListener);
-            map.metaSource.getInputBox().addKeyListener(modifiedListener);
-            map.metaTags.getInputBox().addKeyListener(modifiedListener);
+            map.index = currIndex;
         }
     }
 
@@ -128,7 +105,7 @@ public class Frame extends JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         setTitle("Mapset Manager");
-        setSize(new Dimension(854, 480));
+        setSize(new Dimension(640, 480));
         setLocation(((int) screenSize.getWidth() - getWidth()) / 2, ((int) screenSize.getHeight() - getHeight()) / 2);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
