@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -93,8 +94,7 @@ public class Beatmap implements Comparable<Beatmap> {
             return;
         // BeatmapSerializer.write(new PrintWriter(System.out, true), this);
         modified = false;
-        metadata.save();
-        System.out.println("metadata:\n" + metadata.toString());
+        // System.out.println("metadata:\n" + metadata.toString());
 
         PrintWriter out = new PrintWriter(location);
         BeatmapSerializer.write(out, this);
@@ -123,8 +123,9 @@ public class Beatmap implements Comparable<Beatmap> {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        Beatmap.this.save();
-                        Beatmap.this.set.updateModifyTracker();
+                        metadata.save();
+                        save();
+                        set.updateModifyTracker();
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -133,11 +134,17 @@ public class Beatmap implements Comparable<Beatmap> {
 
             JButton saveMapsetBtn = new JButton("Commit to Mapset");
             saveMapsetBtn.setToolTipText("Save your metadata changes to the ENTIRE MAPSET.");
-            saveFileBtn.addActionListener(new ActionListener() {
+            saveMapsetBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        Beatmap.this.set.commitMapset(metadata);
+                        int res = JOptionPane.showConfirmDialog(set.frame,
+                                "Are you sure you want to write to the entire mapset?", "Confirm",
+                                JOptionPane.YES_NO_OPTION);
+                        if (res == JOptionPane.YES_OPTION) {
+                            metadata.save();
+                            set.commitMapset(metadata);
+                        }
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }

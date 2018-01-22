@@ -17,20 +17,20 @@ import javax.swing.JLabel;
 
 public class Frame extends JFrame {
     private static final long serialVersionUID = 1L;
-    private State state;
+    private BeatmapSet set;
     public JTabbedPane tabs;
 
     private void chooseMapset(BeatmapSet set) {
         setTitle("Mapset Manager: " + set.location.getName());
-        set.frame = this;
-        state.mapset = set;
+        this.set = set;
+        this.set.frame = this;
 
         // empty tab pane
         tabs.removeAll();
 
         // populate tab list
         int index = 0;
-        for (Beatmap map : state.mapset.beatmaps) {
+        for (Beatmap map : this.set.beatmaps) {
             tabs.addTab(map.difficultyName, map.getPanel());
             final int currIndex = index++;
             map.index = currIndex;
@@ -101,7 +101,6 @@ public class Frame extends JFrame {
     }
 
     public Frame() {
-        state = new State();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         setTitle("Mapset Manager");

@@ -8,7 +8,6 @@ public class Metadata {
     public MetadataEntry Tags = new MetadataEntry("Tags");
 
     public void save() {
-        System.out.println("=" + Source.getInputBox().getText() + "=");
         Title.save();
         TitleUnicode.save();
         Artist.save();
@@ -16,7 +15,6 @@ public class Metadata {
         Creator.save();
         Source.save();
         Tags.save();
-        System.out.println("=" + Source.getInputBox().getText() + "=");
     }
 
     public void assimilate(Metadata other) {

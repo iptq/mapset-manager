@@ -41,6 +41,7 @@ public class BeatmapSet {
 
     public void commitMapset(Metadata metadata) throws IOException {
         for (Beatmap map : beatmaps) {
+            map.modified = true;
             map.metadata.assimilate(metadata);
             map.save();
         }
