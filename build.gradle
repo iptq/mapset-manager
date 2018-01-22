@@ -10,3 +10,11 @@ jar {
         )
     }
 }
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.github.francesco149', name: 'koohii', version: '1.0.12'
+}
